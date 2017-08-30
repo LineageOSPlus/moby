@@ -256,7 +256,7 @@ func supportsOverlay() error {
 
 	s := bufio.NewScanner(f)
 	for s.Scan() {
-		if s.Text() == "nodev\toverlay" {
+		if s.Text() == "nodev\toverlayfs" {
 			return nil
 		}
 	}

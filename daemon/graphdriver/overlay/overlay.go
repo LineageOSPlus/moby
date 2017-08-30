@@ -176,7 +176,7 @@ func supportsOverlay() error {
 
 	s := bufio.NewScanner(f)
 	for s.Scan() {
-		if s.Text() == "nodev\toverlay" {
+		if s.Text() == "nodev\toverlayfs" {
 			return nil
 		}
 	}
@@ -377,8 +377,8 @@ func (d *Driver) Get(id string, mountLabel string) (s string, err error) {
 		workDir  = path.Join(dir, "work")
 		opts     = fmt.Sprintf("lowerdir=%s,upperdir=%s,workdir=%s", lowerDir, upperDir, workDir)
 	)
-	if err := unix.Mount("overlay", mergedDir, "overlay", 0, label.FormatMountLabel(opts, mountLabel)); err != nil {
-		return "", fmt.Errorf("error creating overlay mount to %s: %v", mergedDir, err)
+	if err := unix.Mount("overlayfs", mergedDir, "overlayfs", 0, label.FormatMountLabel(opts, mountLabel)); err != nil {
+		return "", fmt.Errorf("error creating overlay mount to %s: %v | options are %s", mergedDir, err, opts)
 	}
 	// chown "workdir/work" to the remapped root UID/GID. Overlay fs inside a
 	// user namespace requires this to move a directory from lower to upper.
