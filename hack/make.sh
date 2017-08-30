@@ -112,10 +112,12 @@ if [ ! "$GOPATH" ]; then
 	exit 1
 fi
 
-if ${PKG_CONFIG} 'libsystemd >= 209' 2> /dev/null ; then
-	DOCKER_BUILDTAGS+=" journald"
-elif ${PKG_CONFIG} 'libsystemd-journal' 2> /dev/null ; then
-	DOCKER_BUILDTAGS+=" journald journald_compat"
+if false; then
+	if ${PKG_CONFIG} 'libsystemd >= 209' 2> /dev/null ; then
+		DOCKER_BUILDTAGS+=" journald"
+	elif ${PKG_CONFIG} 'libsystemd-journal' 2> /dev/null ; then
+		DOCKER_BUILDTAGS+=" journald journald_compat"
+	fi
 fi
 
 # test whether "btrfs/version.h" exists and apply btrfs_noversion appropriately
