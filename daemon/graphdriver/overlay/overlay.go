@@ -374,21 +374,21 @@ func (d *Driver) Get(id string, mountLabel string) (s string, err error) {
 	var (
 		lowerDir = path.Join(d.dir(string(lowerID)), "root")
 		upperDir = path.Join(dir, "upper")
-		workDir  = path.Join(dir, "work")
-		opts     = fmt.Sprintf("lowerdir=%s,upperdir=%s,workdir=%s", lowerDir, upperDir, workDir)
+		//workDir  = path.Join(dir, "work")
+		opts     = fmt.Sprintf("lowerdir=%s,upperdir=%s", lowerDir, upperDir)
 	)
 	if err := unix.Mount("overlayfs", mergedDir, "overlayfs", 0, label.FormatMountLabel(opts, mountLabel)); err != nil {
 		return "", fmt.Errorf("error creating overlay mount to %s: %v | options are %s", mergedDir, err, opts)
 	}
 	// chown "workdir/work" to the remapped root UID/GID. Overlay fs inside a
 	// user namespace requires this to move a directory from lower to upper.
-	rootUID, rootGID, err := idtools.GetRootUIDGID(d.uidMaps, d.gidMaps)
-	if err != nil {
-		return "", err
-	}
-	if err := os.Chown(path.Join(workDir, "work"), rootUID, rootGID); err != nil {
-		return "", err
-	}
+	//rootUID, rootGID, err := idtools.GetRootUIDGID(d.uidMaps, d.gidMaps)
+	//if err != nil {
+		//return "", err
+	//}
+	//if err := os.Chown(path.Join(workDir, "work"), rootUID, rootGID); err != nil {
+		//return "", err
+	//}
 	return mergedDir, nil
 }
 
